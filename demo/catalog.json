@@ -1,0 +1,66 @@
+{
+  "synthetic": true,
+  "purpose": "Offline interface demonstration; these IDs must never be sent to Apple",
+  "apps": [
+    {
+      "id": 1,
+      "name": "Notes Demo",
+      "category": "Demo"
+    },
+    {
+      "id": 2,
+      "name": "Calendar Demo",
+      "category": "Demo"
+    },
+    {
+      "id": 3,
+      "name": "Timer Demo",
+      "category": "Demo"
+    },
+    {
+      "id": 4,
+      "name": "Reader Demo",
+      "category": "Demo"
+    },
+    {
+      "id": 5,
+      "name": "Tasks Demo",
+      "category": "Demo"
+    },
+    {
+      "id": 6,
+      "name": "Sketch Demo",
+      "category": "Demo"
+    },
+    {
+      "id": 7,
+      "name": "Weather Demo",
+      "category": "Demo"
+    },
+    {
+      "id": 8,
+      "name": "Journal Demo",
+      "category": "Demo"
+    },
+    {
+      "id": 9,
+      "name": "Music Demo",
+      "category": "Demo"
+    },
+    {
+      "id": 10,
+      "name": "Maps Demo",
+      "category": "Demo"
+    },
+    {
+      "id": 11,
+      "name": "Files Demo",
+      "category": "Demo"
+    },
+    {
+      "id": 12,
+      "name": "Camera Demo",
+      "category": "Demo"
+    }
+  ]
+}

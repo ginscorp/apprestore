@@ -1,0 +1,20 @@
+{
+  "name": "AppRestore",
+  "public_edition": "0.8.8-public.1",
+  "ui_version": "0.8.8",
+  "ui_build": "38",
+  "apple_engine_version": "0.8.2",
+  "usb_source": "included source snapshot; no private runtime payload",
+  "minimum_macos_target": "14.0",
+  "tested_architecture": "arm64",
+  "ui_languages": [
+    "ru",
+    "en"
+  ],
+  "documentation_languages": [
+    "en",
+    "ru"
+  ],
+  "prepared_candidate": true,
+  "license": "GPL-3.0-only"
+}

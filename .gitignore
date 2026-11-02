@@ -1,0 +1,21 @@
+# Build products and user data never belong to the source package.
+.DS_Store
+__pycache__/
+*.pyc
+build/
+dist/
+artifacts/
+runtime/
+.tools/
+*.app/
+*.dmg
+*.ipa
+*.sinf
+*.sqlite*
+.env
+.env.*
+*.key
+*.pem
+*.p12
+tokens.json
+credentials.json
