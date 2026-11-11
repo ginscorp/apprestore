@@ -43,6 +43,8 @@ func safeAppleFailure(err error) string {
 			if d.IsValid() && d.Kind() == reflect.Struct {
 				if f := d.FieldByName("FailureType"); f.IsValid() && f.Kind() == reflect.String {
 					switch strings.ToLower(f.String()) {
+					case "-5000":
+						return "invalid_credentials"
 					case "2059", "404", "itemnotavailable", "itemnotfound", "temporarilyunavailable":
 						return "app_temporarily_unavailable"
 					case "1008", "invalidkbsync", "deviceverificationfailed":
@@ -87,6 +89,35 @@ func makeCheckDiagnostic(id int64, stage, code string, events []netguard.TraceEv
 
 func summarizeCheckError(err error) map[string]any {
 	out := map[string]any{}
+	var stage interface{ AuthenticationStage() string }
+	if errors.As(err, &stage) {
+		switch value := stage.AuthenticationStage(); value {
+		case "state", "identity", "configuration", "machine_provisioning", "store_challenge", "assets", "key_exchange", "store_provisioning", "store_proof", "store_verification", "commerce_proof":
+			out["device_stage"] = value
+		}
+	}
+	var action interface{ AppleMachineAction() string }
+	if errors.As(err, &action) {
+		switch value := action.AppleMachineAction(); value {
+		case "RP", "SP":
+			out["machine_action"] = value
+		}
+	}
+	var unexpected *storehttp.UnexpectedResponseError
+	if errors.As(err, &unexpected) {
+		out["http_status"] = unexpected.StatusCode
+		switch unexpected.Reason {
+		case "authentication redirect is missing Location":
+			out["response_kind"] = "redirect_without_location"
+		case "empty or non-plist authentication response":
+			out["response_kind"] = "empty_or_non_plist"
+		case "malformed authentication plist":
+			out["response_kind"] = "malformed_plist"
+		default:
+			out["response_kind"] = "other"
+		}
+		return out
+	}
 	var apple *appstore.Error
 	if !errors.As(err, &apple) || apple.Metadata == nil {
 		return out
@@ -97,6 +128,24 @@ func summarizeCheckError(err error) map[string]any {
 	}
 	if !v.IsValid() || v.Kind() != reflect.Struct {
 		return out
+	}
+	if f := v.FieldByName("StatusCode"); f.IsValid() && f.Kind() == reflect.Int {
+		out["http_status"] = f.Int()
+	}
+	if f := v.FieldByName("Headers"); f.IsValid() && f.Kind() == reflect.Map {
+		for _, key := range f.MapKeys() {
+			if key.Kind() == reflect.String && strings.EqualFold(key.String(), "X-Apple-AMD-Action") {
+				value := f.MapIndex(key)
+				if value.Kind() == reflect.String {
+					switch value.String() {
+					case "RP", "SP":
+						out["machine_action"] = value.String()
+					default:
+						out["machine_action"] = "unrecognized"
+					}
+				}
+			}
+		}
 	}
 	d := v.FieldByName("Data")
 	if !d.IsValid() || d.Kind() != reflect.Struct {

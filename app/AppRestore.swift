@@ -236,6 +236,7 @@ final class USBBridge: @unchecked Sendable {
             "license_required":"У этого Apple ID нет права на приложение. Если оно еще доступно, можно получить бесплатную лицензию.",
             "session_expired":"Apple завершила сеанс. Заверши работу с аккаунтом и войди заново.",
             "runtime_missing":"Комплект компонентов неполный. Нужна повторная сборка приложения.",
+            "invalid_credentials":"Apple отклонила Apple ID или пароль. Проверь данные именно учетной записи App Store.",
             "app_not_available":"Apple не нашла это приложение в магазине данной учетной записи.",
             "free_apps_only":"Получение платных приложений отключено.",
             "not_paired":"Для работы нужно доверие этому Mac. Открой iPhone в Finder и подтверди доверие на телефоне.",
@@ -255,7 +256,13 @@ final class USBBridge: @unchecked Sendable {
             "installation_plan_changed":"Устройство или требования пакета изменились. Повтори проверку установки.",
             "usb_failed":"Не удалось выполнить операцию с iPhone. Проверь кабель, разблокировку и доверие этому Mac."
         ]
-        let extra:[String:String] = ["network_timeout":"Apple не ответила вовремя. Сведения о покупке не изменились. Повтори проверку позже.","network_unavailable":"Не удалось связаться с Apple. Проверь подключение к интернету.","apple_rate_limited":"Apple временно ограничила частоту запросов. Подожди несколько минут.","apple_service_unavailable":"Сервис Apple временно недоступен. Повтори проверку позже.","app_temporarily_unavailable":"Apple сейчас не выдает сведения по этому App ID. Наличие установленной копии не отменяется этим ответом.","apple_access_denied":"Apple отклонила запрос этого приложения. Это не доказывает отсутствие прежней покупки.","apple_verification_failed":"Apple не приняла проверку устройства для этого запроса. Повтори проверку позже.","apple_request_failed":"Не удалось получить корректный ответ Apple. Причина не подтверждена; прежняя покупка не считается отсутствующей."]
+        var extra:[String:String] = ["network_timeout":"Apple не ответила вовремя. Сведения о покупке не изменились. Повтори проверку позже.","network_unavailable":"Не удалось связаться с Apple. Проверь подключение к интернету.","apple_rate_limited":"Apple временно ограничила частоту запросов. Подожди несколько минут.","apple_service_unavailable":"Сервис Apple временно недоступен. Повтори проверку позже.","app_temporarily_unavailable":"Apple сейчас не выдает сведения по этому App ID. Наличие установленной копии не отменяется этим ответом.","apple_access_denied":"Apple отклонила запрос этого приложения. Это не доказывает отсутствие прежней покупки.","apple_verification_failed":"Apple не приняла проверку устройства для этого запроса. Повтори проверку позже.","apple_request_failed":"Не удалось получить корректный ответ Apple. Причина не подтверждена; прежняя покупка не считается отсутствующей."]
+        if case .key("Вход в App Store") = lastOperation {
+            extra["apple_request_failed"]="Apple вернула ответ, который клиент не смог обработать. Пароль не подтвержден как неверный; сохранена безопасная диагностика входа."
+            extra["network_timeout"]="Не удалось дождаться ответа Apple при входе. Повтори позже."
+            extra["apple_access_denied"]="Сервис Apple отклонил запрос входа. Это не подтверждает ошибку пароля."
+            extra["app_temporarily_unavailable"]="Адрес службы входа Apple сейчас недоступен. Повтори позже."
+        }
         checkDiagnostic = (error as? BridgeError)?.diagnostic ?? ""
         message = .sequence((lastOperation.isEmpty ? [] : [lastOperation, .literal(": ")]) + [.key(extra[code] ?? texts[code] ?? "Операция не завершена."), .literal(" [\(code)]")])
     }

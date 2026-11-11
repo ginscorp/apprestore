@@ -68,7 +68,7 @@ func (t *appstore) sendDownloadProduct(ctx context.Context, acc Account, app App
 
 	volumeStore := t.volumeStoreEndpoint(acc)
 
-	res, err := t.downloadClient.Send(t.downloadProductRequest(volumeStore, acc, app, guid, externalVersionID))
+	res, err := t.sendCommerceDownloadRequest(ctx, t.downloadProductRequest(volumeStore, acc, app, guid, externalVersionID), guid)
 	if err != nil {
 		return res, platform, fmt.Errorf("failed to send http request: %w", err)
 	}
@@ -118,7 +118,7 @@ func (t *appstore) sendDownloadProduct(ctx context.Context, acc Account, app App
 		}
 	}
 
-	redownloadRes, err := t.downloadClient.Send(t.downloadProductRequest(redownload, acc, app, guid, externalVersionID))
+	redownloadRes, err := t.sendCommerceDownloadRequest(ctx, t.downloadProductRequest(redownload, acc, app, guid, externalVersionID), guid)
 	if bag.UpdateEndpoint != "" && externalVersionID != "" &&
 		(platform == "" || platform == PlatformIPhone || platform == PlatformIPad || platform == PlatformMacOS || platform == PlatformAppleTV || platform == PlatformWatchOS) &&
 		(isEmptyRedownloadError(err) || (err == nil && isUnavailableDownloadProductResponse(redownloadRes))) {
@@ -149,7 +149,7 @@ func (t *appstore) sendUnpinnedRedownload(ctx context.Context, endpoint download
 	request := t.downloadProductRequest(endpoint, acc, app, guid, "")
 	request.Context = requestContext
 
-	res, err := t.downloadClient.Send(request)
+	res, err := t.sendCommerceDownloadRequest(requestContext, request, guid)
 	if err != nil {
 		return res, fmt.Errorf("failed to send redownload request: %w", err)
 	}
@@ -181,7 +181,7 @@ func (t *appstore) sendUpdateProduct(endpoint string, acc Account, app App, guid
 	// The bag's updateProduct can serve pinned app versions when redownload
 	// returns an empty HTTP 500 or a message-only availability error. Keep
 	// the same session and version selection.
-	res, err := t.downloadClient.Send(t.downloadProductRequest(update, acc, app, guid, externalVersionID))
+	res, err := t.sendCommerceDownloadRequest(t.deviceAuthContext, t.downloadProductRequest(update, acc, app, guid, externalVersionID), guid)
 	if err != nil {
 		return res, fmt.Errorf("failed to send update request: %w", err)
 	}

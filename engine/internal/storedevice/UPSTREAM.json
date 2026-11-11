@@ -1,0 +1,455 @@
+{
+  "repository": "https://github.com/majd/ipatool",
+  "revision": "8771e57445272459b83b7d423170cc518e419647",
+  "files": [
+    {
+      "path": "sap/assets/assets.go",
+      "bytes": 5340,
+      "source_sha256": "57bc918ccce6c75e0fc4202a6db20c81f44c61c897a5cbd9b0550a9f61102a7a",
+      "sha256": "7443714342509110cd037eef91693c6582ecc87516a1f7f88676e864ecd1334a",
+      "adapted_sha256": "2fe07da390fa212b786344355dd2ea5dc6768dd947ef0d40ab1e38689a8c33db"
+    },
+    {
+      "path": "sap/machine/arm64.go",
+      "bytes": 5669,
+      "source_sha256": "bcc26d9d129d520df657f5235a932dbbc5429085864893e88e5f8053bde0f9a0",
+      "sha256": "03c6210dd443a5bee66cad81e2380f55f62668f6a40cf22be989137dc7b7287c",
+      "adapted_sha256": "03c6210dd443a5bee66cad81e2380f55f62668f6a40cf22be989137dc7b7287c"
+    },
+    {
+      "path": "sap/machine/ioaes.go",
+      "bytes": 1353,
+      "source_sha256": "50f5074cbc10be9b562131982af675510c8440e152d55b520e8686d9f9d02903",
+      "sha256": "50f5074cbc10be9b562131982af675510c8440e152d55b520e8686d9f9d02903",
+      "adapted_sha256": "50f5074cbc10be9b562131982af675510c8440e152d55b520e8686d9f9d02903"
+    },
+    {
+      "path": "sap/machine/kbsync.go",
+      "bytes": 1843,
+      "source_sha256": "da8e6942873f9dacaf3e8e914d3fbc3cc4f7f594d52fe188151db537a69f9adf",
+      "sha256": "df3d3c2faf6bba91081ac43a1886ef2299efcc2fa2e142cde4cceb8af19ed3ce",
+      "adapted_sha256": "df3d3c2faf6bba91081ac43a1886ef2299efcc2fa2e142cde4cceb8af19ed3ce"
+    },
+    {
+      "path": "sap/machine/machine.go",
+      "bytes": 17516,
+      "source_sha256": "b5643304bb3936d29854a6e12717c0b908fc5e27ce994cd4a25cae4ca9023984",
+      "sha256": "39e9d9ec00cd546539d454316b9181045de64a913897e7fb98738819a0927f9c",
+      "adapted_sha256": "39e9d9ec00cd546539d454316b9181045de64a913897e7fb98738819a0927f9c"
+    },
+    {
+      "path": "sap/machine/macos27.go",
+      "bytes": 1448,
+      "source_sha256": "54dadfec7d6fc627d78ac4f60f107fae8985b371b641cef2a2a33f6b6e75c92b",
+      "sha256": "54dadfec7d6fc627d78ac4f60f107fae8985b371b641cef2a2a33f6b6e75c92b",
+      "adapted_sha256": "54dadfec7d6fc627d78ac4f60f107fae8985b371b641cef2a2a33f6b6e75c92b"
+    },
+    {
+      "path": "sap/machine/modern_adi.go",
+      "bytes": 17574,
+      "source_sha256": "b91f055d63289010e88b4ba36bbb95675b08055b4aa0fadb360ed8f1cd14222d",
+      "sha256": "b63c15f81bdb76bbe7571adb86b0ae8eb1af212b87d34be3feb3370918f9204b",
+      "adapted_sha256": "b63c15f81bdb76bbe7571adb86b0ae8eb1af212b87d34be3feb3370918f9204b"
+    },
+    {
+      "path": "sap/machine/shim_memory.go",
+      "bytes": 14606,
+      "source_sha256": "89088de797e2697628928160bb652df95d8f2441e90b1bac61c7fd1ef3702034",
+      "sha256": "89088de797e2697628928160bb652df95d8f2441e90b1bac61c7fd1ef3702034",
+      "adapted_sha256": "89088de797e2697628928160bb652df95d8f2441e90b1bac61c7fd1ef3702034"
+    },
+    {
+      "path": "sap/machine/shim_platform.go",
+      "bytes": 44131,
+      "source_sha256": "78e049d2834fa4c7da46e745a483956a2ad7a2a072ed85f1a78d8723016f646e",
+      "sha256": "66ec7fa3cb0fe9a9556b8e74084032c18364dc10e0b7a03dcf992717735a7e3e",
+      "adapted_sha256": "66ec7fa3cb0fe9a9556b8e74084032c18364dc10e0b7a03dcf992717735a7e3e"
+    },
+    {
+      "path": "sap/machine/shims.go",
+      "bytes": 8130,
+      "source_sha256": "ce441f221c032dbbf77b8f1670dd07e375ee1675512476280647f27a1112aebd",
+      "sha256": "745a12eb6c6246463ee2f9c5e80b459ac4536b5055d36a8012dad32fb518015d",
+      "adapted_sha256": "745a12eb6c6246463ee2f9c5e80b459ac4536b5055d36a8012dad32fb518015d"
+    },
+    {
+      "path": "sap/machine/storeagent.go",
+      "bytes": 7545,
+      "source_sha256": "2ce17a3022f36a7b2f90f5c4d27ccfcbcbc1f858e33f8aa199ca43e2a7e5beac",
+      "sha256": "056e710286a29d298e9e7984764be451670e630f93839d92d95e74fddf8495a2",
+      "adapted_sha256": "056e710286a29d298e9e7984764be451670e630f93839d92d95e74fddf8495a2"
+    },
+    {
+      "path": "sap/machimage/image.go",
+      "bytes": 18493,
+      "source_sha256": "a597a7154813fe59426b61655d914d627279d9c0b6a2346f49a3b879d66f415c",
+      "sha256": "a597a7154813fe59426b61655d914d627279d9c0b6a2346f49a3b879d66f415c",
+      "adapted_sha256": "a597a7154813fe59426b61655d914d627279d9c0b6a2346f49a3b879d66f415c"
+    },
+    {
+      "path": "sap/unicorn/archive.go",
+      "bytes": 216,
+      "source_sha256": "a50ed044645420b1d2179c7f814b513b94e3c07b8bc4a36d886577a067d0bd36",
+      "sha256": "a50ed044645420b1d2179c7f814b513b94e3c07b8bc4a36d886577a067d0bd36",
+      "adapted_sha256": "a50ed044645420b1d2179c7f814b513b94e3c07b8bc4a36d886577a067d0bd36"
+    },
+    {
+      "path": "sap/unicorn/archive_7z_windows.go",
+      "bytes": 1345,
+      "source_sha256": "7b7b525cfd82883d460aa7f1dd3b34322c91da28b04d4520bce2790e816ba912",
+      "sha256": "7b7b525cfd82883d460aa7f1dd3b34322c91da28b04d4520bce2790e816ba912",
+      "adapted_sha256": "7b7b525cfd82883d460aa7f1dd3b34322c91da28b04d4520bce2790e816ba912"
+    },
+    {
+      "path": "sap/unicorn/archive_tar_zstd.go",
+      "bytes": 1199,
+      "source_sha256": "95341ba294831571e1f51ca446926d5e3444f473688b40ea8899fc474ba09ad4",
+      "sha256": "95341ba294831571e1f51ca446926d5e3444f473688b40ea8899fc474ba09ad4",
+      "adapted_sha256": "95341ba294831571e1f51ca446926d5e3444f473688b40ea8899fc474ba09ad4"
+    },
+    {
+      "path": "sap/unicorn/archive_unix.go",
+      "bytes": 297,
+      "source_sha256": "e204bf2718333e2e7cf10be15e09bddaa51c5782e40f2ff381bf8d9e26ef7d07",
+      "sha256": "e204bf2718333e2e7cf10be15e09bddaa51c5782e40f2ff381bf8d9e26ef7d07",
+      "adapted_sha256": "e204bf2718333e2e7cf10be15e09bddaa51c5782e40f2ff381bf8d9e26ef7d07"
+    },
+    {
+      "path": "sap/unicorn/archive_zip.go",
+      "bytes": 927,
+      "source_sha256": "98addd5ccaf96b6b562b479d82d839cc5037ca131682f5e50bd182e30f19aa66",
+      "sha256": "98addd5ccaf96b6b562b479d82d839cc5037ca131682f5e50bd182e30f19aa66",
+      "adapted_sha256": "98addd5ccaf96b6b562b479d82d839cc5037ca131682f5e50bd182e30f19aa66"
+    },
+    {
+      "path": "sap/unicorn/artifact.go",
+      "bytes": 4818,
+      "source_sha256": "3921d170655a0ae2b74839e65d190f7773fc08064c32670077256b41b433c322",
+      "sha256": "3921d170655a0ae2b74839e65d190f7773fc08064c32670077256b41b433c322",
+      "adapted_sha256": "3921d170655a0ae2b74839e65d190f7773fc08064c32670077256b41b433c322"
+    },
+    {
+      "path": "sap/unicorn/cache.go",
+      "bytes": 8052,
+      "source_sha256": "75921fc132ea5a5434b417a71893168918ef10a91fe96c3854c32cb8f1b2b58c",
+      "sha256": "f1ffea82aa9d150164445d7b7de5dc7c375c8e3311c65c59bde4fa01c21a86ae",
+      "adapted_sha256": "9f0fd75b34c433dead9432a545fe31a6fcc4da35aaf516e8d205540afb0ba9a6"
+    },
+    {
+      "path": "sap/unicorn/cache_runtime.go",
+      "bytes": 1379,
+      "source_sha256": "fe5833f014b69add130f4fbe14d90ee776f5c36325809c01b62a8ecc1cce995d",
+      "sha256": "5d79dee3ec5bbb8698601f10404b871b7994c306f8cf30e6def456b554196097",
+      "adapted_sha256": "b80d652af9f0c3674fe242d6d372169611fb604dd5e562877275edd02f3258ab"
+    },
+    {
+      "path": "sap/unicorn/engine.go",
+      "bytes": 9692,
+      "source_sha256": "cad038be7c312007922c079a78c967ae7f0e793e0d75e56640ec85c785fda28c",
+      "sha256": "cad038be7c312007922c079a78c967ae7f0e793e0d75e56640ec85c785fda28c",
+      "adapted_sha256": "cad038be7c312007922c079a78c967ae7f0e793e0d75e56640ec85c785fda28c"
+    },
+    {
+      "path": "sap/unicorn/engine_config_default.go",
+      "bytes": 90,
+      "source_sha256": "9ebcf3311ab6b93d9dc656e5802d34c5e80e871cd2e29e5bda8bae3c6d93aeb3",
+      "sha256": "9ebcf3311ab6b93d9dc656e5802d34c5e80e871cd2e29e5bda8bae3c6d93aeb3",
+      "adapted_sha256": "9ebcf3311ab6b93d9dc656e5802d34c5e80e871cd2e29e5bda8bae3c6d93aeb3"
+    },
+    {
+      "path": "sap/unicorn/engine_config_windows.go",
+      "bytes": 607,
+      "source_sha256": "0f83d38597f9f2ae34033dce86202671b1afb4b2ae349b0c45beb521f07822ba",
+      "sha256": "0f83d38597f9f2ae34033dce86202671b1afb4b2ae349b0c45beb521f07822ba",
+      "adapted_sha256": "0f83d38597f9f2ae34033dce86202671b1afb4b2ae349b0c45beb521f07822ba"
+    },
+    {
+      "path": "sap/unicorn/hook.go",
+      "bytes": 3406,
+      "source_sha256": "e56962c9fb8cece6b457aff4512ede7965602010ec457fc5094abc3efb862d03",
+      "sha256": "e56962c9fb8cece6b457aff4512ede7965602010ec457fc5094abc3efb862d03",
+      "adapted_sha256": "e56962c9fb8cece6b457aff4512ede7965602010ec457fc5094abc3efb862d03"
+    },
+    {
+      "path": "sap/unicorn/library.go",
+      "bytes": 78,
+      "source_sha256": "70c358aa3e73fc5e8f994b791ed9ce74afc8f53fc01113ba1adf9f2e8e2a5299",
+      "sha256": "70c358aa3e73fc5e8f994b791ed9ce74afc8f53fc01113ba1adf9f2e8e2a5299",
+      "adapted_sha256": "70c358aa3e73fc5e8f994b791ed9ce74afc8f53fc01113ba1adf9f2e8e2a5299"
+    },
+    {
+      "path": "sap/unicorn/library_ios.go",
+      "bytes": 659,
+      "source_sha256": "53872b337cb34534f316cf7c23e0ca5eb15a25ea4a18bf222affe88e1f23d770",
+      "sha256": "53872b337cb34534f316cf7c23e0ca5eb15a25ea4a18bf222affe88e1f23d770",
+      "adapted_sha256": "53872b337cb34534f316cf7c23e0ca5eb15a25ea4a18bf222affe88e1f23d770"
+    },
+    {
+      "path": "sap/unicorn/library_prepare_windows.go",
+      "bytes": 6406,
+      "source_sha256": "1ecf91704f41de06b5d3d51caa87b0a13c17edb72c7cf1ed4cc992f5a33c3beb",
+      "sha256": "1ecf91704f41de06b5d3d51caa87b0a13c17edb72c7cf1ed4cc992f5a33c3beb",
+      "adapted_sha256": "1ecf91704f41de06b5d3d51caa87b0a13c17edb72c7cf1ed4cc992f5a33c3beb"
+    },
+    {
+      "path": "sap/unicorn/library_prepare_windows_amd64.go",
+      "bytes": 3051,
+      "source_sha256": "da6662f6e8d4ce64cb7d38936ec9698251d6949b303c10a3f6bc9a48e6e5451e",
+      "sha256": "da6662f6e8d4ce64cb7d38936ec9698251d6949b303c10a3f6bc9a48e6e5451e",
+      "adapted_sha256": "da6662f6e8d4ce64cb7d38936ec9698251d6949b303c10a3f6bc9a48e6e5451e"
+    },
+    {
+      "path": "sap/unicorn/library_prepare_windows_arm64.go",
+      "bytes": 828,
+      "source_sha256": "991af5143272fad961c173af9b724281c9fec57542983318addb47c84580337a",
+      "sha256": "991af5143272fad961c173af9b724281c9fec57542983318addb47c84580337a",
+      "adapted_sha256": "991af5143272fad961c173af9b724281c9fec57542983318addb47c84580337a"
+    },
+    {
+      "path": "sap/unicorn/library_prepare_windows_other.go",
+      "bytes": 138,
+      "source_sha256": "e47d84f4ebb27f3635798fef4e071e9f52224320d20ac15c3646dc402e71fa52",
+      "sha256": "e47d84f4ebb27f3635798fef4e071e9f52224320d20ac15c3646dc402e71fa52",
+      "adapted_sha256": "e47d84f4ebb27f3635798fef4e071e9f52224320d20ac15c3646dc402e71fa52"
+    },
+    {
+      "path": "sap/unicorn/library_unix.go",
+      "bytes": 631,
+      "source_sha256": "6dd6cba469d78e142d89b3f9c691adfb34d12d021591a64aa87d149924a30b00",
+      "sha256": "6dd6cba469d78e142d89b3f9c691adfb34d12d021591a64aa87d149924a30b00",
+      "adapted_sha256": "6dd6cba469d78e142d89b3f9c691adfb34d12d021591a64aa87d149924a30b00"
+    },
+    {
+      "path": "sap/unicorn/library_windows.go",
+      "bytes": 1399,
+      "source_sha256": "e584aac6339255352c51628bb1f66d528856b3862cadbbdd5131409b968b984f",
+      "sha256": "e584aac6339255352c51628bb1f66d528856b3862cadbbdd5131409b968b984f",
+      "adapted_sha256": "e584aac6339255352c51628bb1f66d528856b3862cadbbdd5131409b968b984f"
+    },
+    {
+      "path": "sap/unicorn/memory_guard.go",
+      "bytes": 2476,
+      "source_sha256": "2bbaf9a331546acd5fd120d5c454f7f5b381e8969c4526797492e77c3d4080ff",
+      "sha256": "2bbaf9a331546acd5fd120d5c454f7f5b381e8969c4526797492e77c3d4080ff",
+      "adapted_sha256": "2bbaf9a331546acd5fd120d5c454f7f5b381e8969c4526797492e77c3d4080ff"
+    },
+    {
+      "path": "sap/unicorn/runtime_library_default.go",
+      "bytes": 136,
+      "source_sha256": "2654a48f9334ab0d53f6c5b841474ad51e568483ba286dcd9dfc4306c8ad3edf",
+      "sha256": "2654a48f9334ab0d53f6c5b841474ad51e568483ba286dcd9dfc4306c8ad3edf",
+      "adapted_sha256": "2654a48f9334ab0d53f6c5b841474ad51e568483ba286dcd9dfc4306c8ad3edf"
+    },
+    {
+      "path": "sap/unicorn/runtime_library_windows_arm64.go",
+      "bytes": 1582,
+      "source_sha256": "6a0bfda815878f0e2b010458ab10d80a1ade5e716c979af31b9650f291c37206",
+      "sha256": "6a0bfda815878f0e2b010458ab10d80a1ade5e716c979af31b9650f291c37206",
+      "adapted_sha256": "6a0bfda815878f0e2b010458ab10d80a1ade5e716c979af31b9650f291c37206"
+    },
+    {
+      "path": "sap/unicorn/runtime_patch.go",
+      "bytes": 1477,
+      "source_sha256": "d313e2bd050c5dfd7dd09d22d6b03ba505dfef47c1e3c7baaa291c59ac8ed995",
+      "sha256": "d313e2bd050c5dfd7dd09d22d6b03ba505dfef47c1e3c7baaa291c59ac8ed995",
+      "adapted_sha256": "d313e2bd050c5dfd7dd09d22d6b03ba505dfef47c1e3c7baaa291c59ac8ed995"
+    },
+    {
+      "path": "store/emulator/accounts.go",
+      "bytes": 2929,
+      "source_sha256": "657e2993d3aa9f39e101913f8770d6a18d6386b8bf89fc9b85d33ee0424624ec",
+      "sha256": "657e2993d3aa9f39e101913f8770d6a18d6386b8bf89fc9b85d33ee0424624ec",
+      "adapted_sha256": "657e2993d3aa9f39e101913f8770d6a18d6386b8bf89fc9b85d33ee0424624ec"
+    },
+    {
+      "path": "store/emulator/anisette.go",
+      "bytes": 1746,
+      "source_sha256": "110dbf2da1456877143b3f7e99589e28472bc4535094b8dd65604375107fe5d8",
+      "sha256": "110dbf2da1456877143b3f7e99589e28472bc4535094b8dd65604375107fe5d8",
+      "adapted_sha256": "110dbf2da1456877143b3f7e99589e28472bc4535094b8dd65604375107fe5d8"
+    },
+    {
+      "path": "store/emulator/async.go",
+      "bytes": 7046,
+      "source_sha256": "30a04637f89254265ccf3149f6bd840b3c2b617c648ed4e69915320ff582a2d3",
+      "sha256": "9a72427c56e45242f8c9a2944ba61a12a1d953dff42408a541aadcc6fd51a8da",
+      "adapted_sha256": "9a72427c56e45242f8c9a2944ba61a12a1d953dff42408a541aadcc6fd51a8da"
+    },
+    {
+      "path": "store/emulator/auth.go",
+      "bytes": 1241,
+      "source_sha256": "47c9c546faeb26aeade0417d6f0b152fae973b19afab1687ee43a52bb9ba05de",
+      "sha256": "47c9c546faeb26aeade0417d6f0b152fae973b19afab1687ee43a52bb9ba05de",
+      "adapted_sha256": "47c9c546faeb26aeade0417d6f0b152fae973b19afab1687ee43a52bb9ba05de"
+    },
+    {
+      "path": "store/emulator/bag.go",
+      "bytes": 588,
+      "source_sha256": "aef4e7ddab55bd0839c10306315e6e8b591729a15681dd9fc5c35e3c3fa0a9c9",
+      "sha256": "aef4e7ddab55bd0839c10306315e6e8b591729a15681dd9fc5c35e3c3fa0a9c9",
+      "adapted_sha256": "aef4e7ddab55bd0839c10306315e6e8b591729a15681dd9fc5c35e3c3fa0a9c9"
+    },
+    {
+      "path": "store/emulator/bridge.go",
+      "bytes": 58036,
+      "source_sha256": "65c9793f0b2032b982051a8d6c17e1b0b60831f01d32f3e66bca2a214baedac3",
+      "sha256": "71d47d53fcb94862a0b592388677e6957b9e60632d4e84ba2c24a7e2960dbfba",
+      "adapted_sha256": "71d47d53fcb94862a0b592388677e6957b9e60632d4e84ba2c24a7e2960dbfba"
+    },
+    {
+      "path": "store/emulator/callbacks.go",
+      "bytes": 2665,
+      "source_sha256": "c9700e828d92875e84376df37081a8c138bbceabf60d4bdff167276155d1a699",
+      "sha256": "7c8eb843613f9f75ac6ccadde6da1335faacbf5b069e964a713a5e5f84f7a945",
+      "adapted_sha256": "7c8eb843613f9f75ac6ccadde6da1335faacbf5b069e964a713a5e5f84f7a945"
+    },
+    {
+      "path": "store/emulator/client.go",
+      "bytes": 10994,
+      "source_sha256": "6c18b88e6c8c9471e86cacaafdee8e4f45ce43f7d1f4fcb00a967b80e42ea5d8",
+      "sha256": "6c18b88e6c8c9471e86cacaafdee8e4f45ce43f7d1f4fcb00a967b80e42ea5d8",
+      "adapted_sha256": "6c18b88e6c8c9471e86cacaafdee8e4f45ce43f7d1f4fcb00a967b80e42ea5d8"
+    },
+    {
+      "path": "store/emulator/compression.go",
+      "bytes": 2673,
+      "source_sha256": "492214c67f2c372aed6730e20d7b214869283b70ebb4b0257a00d49a5f3513cf",
+      "sha256": "492214c67f2c372aed6730e20d7b214869283b70ebb4b0257a00d49a5f3513cf",
+      "adapted_sha256": "492214c67f2c372aed6730e20d7b214869283b70ebb4b0257a00d49a5f3513cf"
+    },
+    {
+      "path": "store/emulator/delegate.go",
+      "bytes": 3927,
+      "source_sha256": "cdf73a0865ee77a0be274eef86f8694356b7be34361fd9c51b476a223ea8efb2",
+      "sha256": "cdf73a0865ee77a0be274eef86f8694356b7be34361fd9c51b476a223ea8efb2",
+      "adapted_sha256": "cdf73a0865ee77a0be274eef86f8694356b7be34361fd9c51b476a223ea8efb2"
+    },
+    {
+      "path": "store/emulator/dictionary.go",
+      "bytes": 6632,
+      "source_sha256": "d6b9a8fa6dd8857cad1bebd0399b425385b64b46eee4e7b5b277db7f65a4e6ee",
+      "sha256": "d6b9a8fa6dd8857cad1bebd0399b425385b64b46eee4e7b5b277db7f65a4e6ee",
+      "adapted_sha256": "d6b9a8fa6dd8857cad1bebd0399b425385b64b46eee4e7b5b277db7f65a4e6ee"
+    },
+    {
+      "path": "store/emulator/hashing.go",
+      "bytes": 2059,
+      "source_sha256": "200985c7c73a159131cc88e05b7c13af5bcdb12e6c5f7fca977373f51e29dfe8",
+      "sha256": "200985c7c73a159131cc88e05b7c13af5bcdb12e6c5f7fca977373f51e29dfe8",
+      "adapted_sha256": "200985c7c73a159131cc88e05b7c13af5bcdb12e6c5f7fca977373f51e29dfe8"
+    },
+    {
+      "path": "store/emulator/memory.go",
+      "bytes": 2121,
+      "source_sha256": "01dcbb19c47a8d4fc3df2e06368e3e2423cae2dedc9c7f123bb008e20c0f45c3",
+      "sha256": "01dcbb19c47a8d4fc3df2e06368e3e2423cae2dedc9c7f123bb008e20c0f45c3",
+      "adapted_sha256": "01dcbb19c47a8d4fc3df2e06368e3e2423cae2dedc9c7f123bb008e20c0f45c3"
+    },
+    {
+      "path": "store/emulator/metadata.go",
+      "bytes": 4914,
+      "source_sha256": "1f54a98184df0bab8852286024a8f329890e0e4d208275697eefa76254652576",
+      "sha256": "1f54a98184df0bab8852286024a8f329890e0e4d208275697eefa76254652576",
+      "adapted_sha256": "1f54a98184df0bab8852286024a8f329890e0e4d208275697eefa76254652576"
+    },
+    {
+      "path": "store/emulator/network.go",
+      "bytes": 26052,
+      "source_sha256": "2f68a882c56375d5239951a717cf55af6d89fc6faeafc207d1e2f659ca837a68",
+      "sha256": "6a4572d712e72ffaa6ed89bc62fd72a11d718ee7ed91f19581e1c4674bc4b488",
+      "adapted_sha256": "6a4572d712e72ffaa6ed89bc62fd72a11d718ee7ed91f19581e1c4674bc4b488"
+    },
+    {
+      "path": "store/emulator/notifications.go",
+      "bytes": 1992,
+      "source_sha256": "fcc643ec5a0541a2691b09da0d15dd12a453a1b6ef53d2fcff68b06279f4b8e5",
+      "sha256": "fcc643ec5a0541a2691b09da0d15dd12a453a1b6ef53d2fcff68b06279f4b8e5",
+      "adapted_sha256": "fcc643ec5a0541a2691b09da0d15dd12a453a1b6ef53d2fcff68b06279f4b8e5"
+    },
+    {
+      "path": "store/emulator/purchase_adapter.go",
+      "bytes": 1803,
+      "source_sha256": "445799354a9221adf23c689b858f2d6426be46cdeb04f5a927402f4771a9eacc",
+      "sha256": "445799354a9221adf23c689b858f2d6426be46cdeb04f5a927402f4771a9eacc",
+      "adapted_sha256": "445799354a9221adf23c689b858f2d6426be46cdeb04f5a927402f4771a9eacc"
+    },
+    {
+      "path": "store/emulator/runtime.go",
+      "bytes": 19174,
+      "source_sha256": "5f38df247b89743b885dbe6065946d8c97792b5a9220932bd6e688132c600ba8",
+      "sha256": "8e1b5f8af374d09f94573d6b7558d2a38525c910910064cf91659e8972069aa5",
+      "adapted_sha256": "8e1b5f8af374d09f94573d6b7558d2a38525c910910064cf91659e8972069aa5"
+    },
+    {
+      "path": "store/emulator/session.go",
+      "bytes": 2988,
+      "source_sha256": "722368f3aea955289d74d99c52512fa96426667e1fb7c7a9e90aa65f758d412c",
+      "sha256": "722368f3aea955289d74d99c52512fa96426667e1fb7c7a9e90aa65f758d412c",
+      "adapted_sha256": "722368f3aea955289d74d99c52512fa96426667e1fb7c7a9e90aa65f758d412c"
+    },
+    {
+      "path": "store/emulator/swift.go",
+      "bytes": 23740,
+      "source_sha256": "df433c62814c2851035989fe16e6f33e1b8dfab1fb7832a2726fe936b9c08c9d",
+      "sha256": "b5e70f85f555ccb202cba3d77299b90dcc7097f456a6ae85127b2b1385670d62",
+      "adapted_sha256": "b5e70f85f555ccb202cba3d77299b90dcc7097f456a6ae85127b2b1385670d62"
+    },
+    {
+      "path": "store/profile/data_generated.go",
+      "bytes": 6708815,
+      "source_sha256": "0a77c1b8c42f4157befac81779f2233d308b3d67d057d7785f8398021f38d9fc",
+      "sha256": "0a77c1b8c42f4157befac81779f2233d308b3d67d057d7785f8398021f38d9fc",
+      "adapted_sha256": "0a77c1b8c42f4157befac81779f2233d308b3d67d057d7785f8398021f38d9fc"
+    },
+    {
+      "path": "store/profile/profile.go",
+      "bytes": 4470,
+      "source_sha256": "060d174c382d61c71e17ec423acac16386a8926cbc0e19af7a8f90b805216de8",
+      "sha256": "060d174c382d61c71e17ec423acac16386a8926cbc0e19af7a8f90b805216de8",
+      "adapted_sha256": "060d174c382d61c71e17ec423acac16386a8926cbc0e19af7a8f90b805216de8"
+    },
+    {
+      "path": "store/profile/format/types.go",
+      "bytes": 2374,
+      "source_sha256": "cf6560962f65fc457bf28f019d473229e9e2aa36ba23128146fbec2aee558800",
+      "sha256": "cf6560962f65fc457bf28f019d473229e9e2aa36ba23128146fbec2aee558800",
+      "adapted_sha256": "cf6560962f65fc457bf28f019d473229e9e2aa36ba23128146fbec2aee558800"
+    },
+    {
+      "path": "storeauth/anisette.go",
+      "bytes": 8243,
+      "source_sha256": "bd7e6ab1c35f6ff47a4126abb1a6ed45cf1da872e9274e81598d0b1d34cada27",
+      "sha256": "a1cabb2a3b92fb9d167e81f1cdd8422eb7917858e587da8c0fbf9cbc0c418847",
+      "adapted_sha256": "a1cabb2a3b92fb9d167e81f1cdd8422eb7917858e587da8c0fbf9cbc0c418847"
+    },
+    {
+      "path": "storeauth/http_client.go",
+      "bytes": 3343,
+      "source_sha256": "8f97a9865d5db3172f0049f094e17d34532e957fa124a9d2d3d3f76a511465c0",
+      "sha256": "8f97a9865d5db3172f0049f094e17d34532e957fa124a9d2d3d3f76a511465c0",
+      "adapted_sha256": "be7cceee1dc2948b06e10297dcb772afe543bd1e4fe6b2a8495698e9260ed30b"
+    },
+    {
+      "path": "storeauth/store_amd.go",
+      "bytes": 2186,
+      "source_sha256": "39347c40d0e0235e1014804895a746256ca1f5aecf5489983597e022894c98b0",
+      "sha256": "6f70ef6371c2988969e5ad9cbf3080313956bc789f658eecf3a1e93188d4fceb",
+      "adapted_sha256": "6f70ef6371c2988969e5ad9cbf3080313956bc789f658eecf3a1e93188d4fceb"
+    },
+    {
+      "path": "storeauth/store_provisioning.go",
+      "bytes": 5418,
+      "source_sha256": "3ccfcae0f03a325414bf9a01d6a190ea7b23939f0d04012c89cce7d3fdb47a62",
+      "sha256": "bad9e26a7062639e2f1f7f45f28496e0df3b45a07ade8a58bc35f353602cb2ea",
+      "adapted_sha256": "bad9e26a7062639e2f1f7f45f28496e0df3b45a07ade8a58bc35f353602cb2ea"
+    }
+  ],
+  "scope": "Isolated Store device proof; memory-only guest; runtime asset download disabled",
+  "adaptations": [
+    "isolated namespace",
+    "runtime downloads disabled",
+    "explicit bundled runtime path",
+    "Apple HTTPS guard and pinned private trust pool",
+    "memory-only state owned by caller"
+  ]
+}

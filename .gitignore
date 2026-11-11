@@ -19,3 +19,4 @@ runtime/
 *.p12
 tokens.json
 credentials.json
+engine/internal/storedevice/store/profile/data_generated.go

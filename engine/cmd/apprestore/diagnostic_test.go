@@ -56,3 +56,20 @@ func TestSafeDiagnosticsNeverContainRawAppleSecrets(t *testing.T) {
 		t.Fatal("disabled trace retained data")
 	}
 }
+
+func TestLoginFailureCodeKeepsOnlyAllowedFields(t *testing.T) {
+	canary := "PRIVATE_PASSWORD_TOKEN_COOKIE"
+	wrapped := appstore.NewErrorWithMetadata(errors.New(canary), struct {
+		StatusCode int
+		Data       struct{ FailureType, CustomerMessage string }
+	}{200, struct{ FailureType, CustomerMessage string }{"-5000", canary}})
+	if errorCode(wrapped) != "invalid_credentials" {
+		t.Fatal("credential failure not classified")
+	}
+	diag := makeCheckDiagnostic(0, "login", errorCode(wrapped), nil)
+	diag.ResponseSummary = summarizeCheckError(wrapped)
+	raw, _ := json.Marshal(diag)
+	if strings.Contains(string(raw), canary) {
+		t.Fatal("private data leaked")
+	}
+}

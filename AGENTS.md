@@ -1,5 +1,7 @@
 # AppRestore contributor and agent guide
 
+The Apple-derived upstream build profile and runtime assets are not part of this repository. Keep them outside the source tree and never include them, an IPA, an account, a device identifier or personal data in a commit, release, log or screenshot. The pinned profile is an explicit local build dependency, not a substitute for reviewing the exact release files.
+
 Read both README versions and VALIDATION.md before changing behavior. Swift/AppKit UI is in app/, Go engine source is in engine/, Python USB source is in usb/, and build/capture helpers are in tools/ and demo/. Keep the UI, engine and public-edition version meanings distinct.
 
 Start with the offline preview. It must reject Apple and USB bridge calls and use synthetic data. Do not access real accounts, Keychain entries, connected devices, pairing records, private databases or Apple runtime downloads merely to inspect or capture the UI. Treat installation, account actions, imports/exports and device changes as separate authorized operations. Never bake credentials, account profiles, real device records or private endpoints into code, images, archives or metadata.

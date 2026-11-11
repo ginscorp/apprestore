@@ -6,7 +6,7 @@
 
 [Start locally](#start-locally) · [Screenshots](#screenshots) · [Build the full application](#build-the-full-application) · [Data and permissions](#data-and-permissions)
 
-A native macOS workspace for Apple app recovery, trusted iPhone tools, and local battery history. This public preparation is based on **AppRestore 0.8.8 build 38**, with an **0.8.2 Apple engine**. Its public edition is **0.8.8-public.1**.
+A native macOS workspace for Apple app recovery, trusted iPhone tools, and local battery history. This public adaptation is based on **AppRestore 0.8.13 build 43**, with the **0.8.2 Apple engine protocol**. Its public edition is **0.8.13-public.1**.
 
 The interface and documentation support **English and Russian**. The screenshots use invented data in the actual native SwiftUI views. They do not show a real connected device or an authenticated Apple account.
 
@@ -57,11 +57,13 @@ The preview requires no Apple/USB runtime. A full build additionally needs **Go 
 APPRESTORE_FULL_ROOT="$(mktemp -d -t apprestore-full)"
 python3.12 -m venv "$APPRESTORE_FULL_ROOT/venv"
 "$APPRESTORE_FULL_ROOT/venv/bin/python" -m pip install -r requirements-lock.txt
+python3 tools/fetch_upstream_profile.py --output "$APPRESTORE_FULL_ROOT/upstream-profile.go"
 python3 tools/build.py full --output "$APPRESTORE_FULL_ROOT/build" \
-  --python "$APPRESTORE_FULL_ROOT/venv/bin/python" --go go --prepare-runtime
+  --python "$APPRESTORE_FULL_ROOT/venv/bin/python" --go go \
+  --profile-file "$APPRESTORE_FULL_ROOT/upstream-profile.go" --prepare-runtime
 ```
 
-The explicit `--prepare-runtime` step downloads pinned runtime components from the upstream Apple/Python distribution sources before ad-hoc signing. It does not log in to Apple, acquire an app or modify an iPhone. Without that flag, the full bundle lacks the additional Apple runtime and its Apple operations remain unavailable. USB packaging uses PyInstaller. A full bundle was assembled locally from this public source with existing pinned dependencies and without Apple runtime preparation; its engine ping and packaged USB startup/EOF checks passed. Fresh dependency installation, runtime download, clean-machine acceptance and third-party binary distribution remain separate release checks.
+The explicit profile step fetches one pinned upstream file containing Apple-derived materials into the external build workspace; it verifies its exact size and SHA-256 and does not place it in the source tree. The explicit `--prepare-runtime` step downloads pinned runtime components from Apple/Python sources before ad-hoc signing. These steps do not log in to Apple, acquire an app or modify an iPhone. Without runtime preparation, Apple operations remain unavailable. USB packaging uses PyInstaller. The Go engine was built with the pinned upstream profile and passed a local ping; full public-bundle, fresh runtime preparation and clean-machine acceptance are described separately in [VALIDATION.md](VALIDATION.md).
 
 Local builds are **ad-hoc signed, not notarized**. Developer ID/notarization and clean-Mac first launch have not been completed. This repository does not claim trusted one-click distribution, include a signing identity, or disable Gatekeeper.
 
@@ -78,7 +80,7 @@ See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for origin and component li
 
 ## Data and permissions
 
-- Public storage is separate: `AppRestorePublic` under the user's Application Support. `APPRESTORE_DATA_HOME` can explicitly choose another data directory. Preview data uses a temporary directory by default.
+- Public storage is separate: `AppRestorePublic` under the user's Application Support. `APPRESTORE_DATA_HOME` can explicitly choose another absolute data directory; symbolic-link and parent-traversal components are rejected. Preview data uses a temporary directory by default.
 - No account, password, token, pairing record, IPA/SINF, database, private device history or proprietary Apple runtime is included.
 - Full mode may store account names, selected device identifiers and battery/passport history locally. SQLite/history and account-name files are not encrypted. Password saving is optional and depends on supported Keychain/code-signing conditions; ad-hoc builds do not imply this capability.
 - Full catalog/artwork access uses public upstream/Apple endpoints. Apple sign-in, app availability, downloads and acquisition are separate actions. A trusted/unlocked iPhone and normal macOS/device permissions are required for relevant USB features.
@@ -87,7 +89,7 @@ See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for origin and component li
 
 ## Validation and limits
 
-The preparation includes 79 passing Python unit tests, Go tests for the helper/app-store/HTTP packages and a native Swift compilation. The screenshots are native offscreen renders, not physical-iPhone acceptance. See [VALIDATION.md](VALIDATION.md) for exact scope, current capture checks and untested integration scenarios.
+The updated Go engine passed local synthetic tests; the Swift UI passed type checking. The screenshots are native offscreen renders, not physical-iPhone acceptance. See [VALIDATION.md](VALIDATION.md) for exact scope, earlier results and untested integration scenarios.
 
 Use only your own authorized Apple account and data. This program cannot guarantee recovery of every delisted app, transfer purchases to another account, fetch every iCloud original, or perform a complete phone migration.
 

@@ -57,7 +57,7 @@ func (t *appstore) ListVersions(input ListVersionsInput) (ListVersionsOutput, er
 	}
 
 	if res.Data.FailureType == FailureTypePasswordTokenExpired || res.Data.FailureType == FailureTypeSignInRequired {
-		return ListVersionsOutput{}, ErrPasswordTokenExpired
+		return ListVersionsOutput{}, NewErrorWithMetadata(ErrPasswordTokenExpired, res)
 	}
 
 	if res.Data.FailureType == FailureTypeLicenseNotFound {

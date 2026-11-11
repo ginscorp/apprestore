@@ -9,6 +9,12 @@ import (
 
 type Transport struct{ Next http.RoundTripper }
 
+func (t Transport) CloseIdleConnections() {
+	if closer, ok := t.Next.(interface{ CloseIdleConnections() }); ok {
+		closer.CloseIdleConnections()
+	}
+}
+
 func AppleHost(host string) bool {
 	host = strings.ToLower(host)
 	for _, domain := range []string{"apple.com", "itunes.com", "mzstatic.com"} {

@@ -23,7 +23,11 @@ type ActionSigner interface {
 type ActionSignerFactory func(config SAPConfig, machineID []byte) (ActionSigner, error)
 
 func defaultActionSignerFactory(config SAPConfig, machineID []byte) (ActionSigner, error) {
-	signer, err := sap.NewSigner(context.Background(), sap.Config{
+	return actionSignerWithContext(context.Background(), config, machineID)
+}
+
+func actionSignerWithContext(ctx context.Context, config SAPConfig, machineID []byte) (ActionSigner, error) {
+	signer, err := sap.NewSigner(ctx, sap.Config{
 		SetupURL:       config.SetupURL,
 		CertificateURL: config.CertificateURL,
 		Version:        config.Version,

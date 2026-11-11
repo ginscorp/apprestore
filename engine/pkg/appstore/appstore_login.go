@@ -9,6 +9,7 @@ import (
 	"net"
 	gohttp "net/http"
 	"net/url"
+	"regexp"
 	"strconv"
 	"strings"
 	"syscall"
@@ -43,6 +44,13 @@ type LoginOutput struct {
 }
 
 func (t *appstore) Login(input LoginInput) (LoginOutput, error) {
+	if t.deviceAuthEnabled {
+		return t.deviceLogin(input)
+	}
+	return t.legacyLogin(input)
+}
+
+func (t *appstore) legacyLogin(input LoginInput) (LoginOutput, error) {
 	authCode, err := normalizeAuthCode(input.AuthCode)
 	if err != nil {
 		return LoginOutput{}, err
@@ -195,6 +203,9 @@ func (t *appstore) login(email, password, authCode, guid, endpoint string, signe
 	}
 
 	sf, err := res.GetHeader(HTTPHeaderStoreFront)
+	if errors.Is(err, http.ErrHeaderNotFound) {
+		sf, err = res.GetHeader("X-Apple-Request-Store-Front")
+	}
 	if err != nil {
 		return Account{}, NewErrorWithMetadata(fmt.Errorf("failed to get storefront header: %w", err), res)
 	}
@@ -205,11 +216,22 @@ func (t *appstore) login(email, password, authCode, guid, endpoint string, signe
 	}
 
 	addr := res.Data.Account.Address
+	dsid := res.Data.DirectoryServicesID
+	if dsid == "" {
+		dsid = authenticationResponseDSID(res.Headers)
+	}
+	if dsid == "" {
+		return Account{}, NewErrorWithMetadata(errors.New("apple returned no directory services identifier"), res)
+	}
+	accountEmail := res.Data.Account.Email
+	if accountEmail == "" {
+		accountEmail = email
+	}
 	acc := Account{
 		Name:                strings.Join([]string{addr.FirstName, addr.LastName}, " "),
-		Email:               res.Data.Account.Email,
+		Email:               accountEmail,
 		PasswordToken:       res.Data.PasswordToken,
-		DirectoryServicesID: res.Data.DirectoryServicesID,
+		DirectoryServicesID: dsid,
 		StoreFront:          sf,
 		Password:            password,
 		Pod:                 pod,
@@ -330,6 +352,13 @@ func retryableAuthenticationError(err error) (int, bool) {
 }
 
 func (t *appstore) parseLoginResponse(res *http.Result[loginResult], attempt int, authCode, endpoint string) (bool, string, error) {
+	if action, _ := res.GetHeader("X-Apple-AMD-Action"); action != "" {
+		data, _ := res.GetHeader("X-Apple-AMD-Data")
+		if (action != "RP" && action != "SP") || len(data) > 1<<20 {
+			return false, "", errors.New("invalid Apple device action")
+		}
+		return false, "", &authenticationMachineActionError{action: action, data: data}
+	}
 	var (
 		retry    bool
 		redirect string
@@ -368,8 +397,8 @@ func (t *appstore) parseLoginResponse(res *http.Result[loginResult], attempt int
 		} else {
 			err = NewErrorWithMetadata(errors.New("something went wrong"), res)
 		}
-	} else if res.StatusCode != gohttp.StatusOK || res.Data.PasswordToken == "" || res.Data.DirectoryServicesID == "" {
-		err = fmt.Errorf("apple returned no usable authentication response (HTTP %d): missing account credentials or unexpected status; try again later or from another network", res.StatusCode)
+	} else if res.StatusCode != gohttp.StatusOK || res.Data.PasswordToken == "" {
+		err = NewErrorWithMetadata(fmt.Errorf("apple returned no usable authentication response (HTTP %d): missing account credentials or unexpected status", res.StatusCode), *res)
 	}
 
 	return retry, redirect, err
@@ -410,12 +439,15 @@ func authenticationRedirectError(err error, status int, location string) error {
 
 func (t *appstore) loginRequest(email, password, authCode, guid, endpoint string, attempt int, signer ActionSigner) http.Request {
 	request := http.Request{
+		Context:        t.deviceAuthContext,
 		Method:         http.MethodPOST,
 		URL:            endpoint,
 		ResponseFormat: http.ResponseFormatXML,
 		ActionSigner:   signer,
+		NoRedirects:    true,
 		Headers: map[string]string{
-			"Content-Type": "application/x-www-form-urlencoded",
+			"Content-Type": "application/x-apple-plist",
+			"User-Agent":   storeAuthenticationUserAgent,
 		},
 		Payload: &http.XMLPayload{
 			Content: map[string]interface{}{
@@ -431,8 +463,36 @@ func (t *appstore) loginRequest(email, password, authCode, guid, endpoint string
 	if storefront := phoneNumberStorefront(email); storefront != "" {
 		request.Headers["X-Apple-Store-Front"] = storefront
 	}
+	for key, value := range t.authenticationHeaders {
+		switch {
+		case strings.EqualFold(key, "X-Apple-I-MD"):
+			request.Headers["X-Apple-AMD"] = value
+		case strings.EqualFold(key, "X-Apple-I-MD-M"):
+			request.Headers["X-Apple-AMD-M"] = value
+		default:
+			request.Headers[key] = value
+		}
+	}
 
 	return request
+}
+
+var storeCookieDSIDPattern = regexp.MustCompile(`(?:^|[ ,])mz_at(?:0|_ssl)-([0-9]+)=`)
+
+func authenticationResponseDSID(headers map[string]string) string {
+	for key, value := range headers {
+		if strings.EqualFold(key, "X-Dsid") {
+			return strings.TrimSpace(value)
+		}
+	}
+	for key, value := range headers {
+		if strings.EqualFold(key, "Set-Cookie") {
+			if match := storeCookieDSIDPattern.FindStringSubmatch(value); len(match) == 2 {
+				return match[1]
+			}
+		}
+	}
+	return ""
 }
 
 func authenticationRequestError(err error) error {

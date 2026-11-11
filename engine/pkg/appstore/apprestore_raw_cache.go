@@ -60,6 +60,9 @@ func rawEligible(path string) bool {
 		if name == "itunesmetadata.plist" || strings.HasSuffix(name, ".sinf") || strings.HasSuffix(name, ".supp") || strings.HasSuffix(name, ".supf") {
 			return false
 		}
+		if f.FileInfo().IsDir() && f.UncompressedSize64 == 0 {
+			continue
+		}
 		if strings.Contains(name, "/sc_info/") && !strings.HasSuffix(name, "/manifest.plist") {
 			return false
 		}
@@ -77,18 +80,8 @@ func rawEligible(path string) bool {
 			if err != nil || len(b) > 65536 {
 				return false
 			}
-			if _, err = plist.Unmarshal(b, &m); err != nil || len(m) != 1 {
+			if _, err = plist.Unmarshal(b, &m); err != nil || !rawManifestEligible(m) {
 				return false
-			}
-			paths, ok := m["SinfPaths"].([]any)
-			if !ok || len(paths) > 64 {
-				return false
-			}
-			for _, v := range paths {
-				s, ok := v.(string)
-				if !ok || len(s) > 512 || zippath.IsAbs(s) || zippath.Clean(s) != s || strings.HasPrefix(s, "../") || !strings.HasSuffix(strings.ToLower(s), ".sinf") {
-					return false
-				}
 			}
 		}
 		if isTopLevelAppInfoPlist(f.Name) {
@@ -97,6 +90,34 @@ func rawEligible(path string) bool {
 	}
 	return found
 }
+
+// Both fields describe relative SINF filenames, never license contents.
+// Unknown fields remain rejected so account material cannot enter a shared cache.
+func rawManifestEligible(m map[string]any) bool {
+	if len(m) < 1 || len(m) > 2 {
+		return false
+	}
+	if _, ok := m["SinfPaths"]; !ok {
+		return false
+	}
+	for key, value := range m {
+		if key != "SinfPaths" && key != "SinfReplicationPaths" {
+			return false
+		}
+		paths, ok := value.([]any)
+		if !ok || len(paths) > 64 {
+			return false
+		}
+		for _, v := range paths {
+			s, ok := v.(string)
+			if !ok || len(s) > 512 || strings.ContainsAny(s, "\\\x00\r\n") || zippath.IsAbs(s) || zippath.Clean(s) != s || strings.HasPrefix(s, "../") || !strings.HasSuffix(strings.ToLower(s), ".sinf") {
+				return false
+			}
+		}
+	}
+	return true
+}
+
 func (c *RawPackageCache) Load(id int64, p Platform, digest, dest string) bool {
 	if c == nil || c.Root == "" || !rawDigestPattern.MatchString(digest) {
 		return false

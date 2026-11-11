@@ -1,19 +1,19 @@
-# Validation of AppRestore 0.8.8-public.1
+# Validation of AppRestore 0.8.13-public.1
 
-This is a prepared source candidate based on UI 0.8.8 build 38 and Apple engine 0.8.2. It is distinct from the owner's working installation. Validation concerns this source edition; live account/device behavior, clean-machine installation and binary distribution require their own evidence.
+This public adaptation is based on AppRestore 0.8.13 build 43 and engine protocol 0.8.2. It uses separate public storage and is distinct from any private working installation. The exact source and media require a fresh privacy check before every release.
 
 | Check | Result and scope |
 | --- | --- |
-| Canonical source basis | Explicit source/icon/license allowlist fingerprinted before export; must be rechecked before any future upload |
-| Native Swift preview | Compiled and locally ad-hoc signed on Apple silicon; macOS 14 target; no installation |
-| Python unit suite | 79 tests passed using synthetic/offline fixtures |
-| Go helper tests | cmd/apprestore, pkg/appstore, pkg/http passed; internal/netguard compiled but has no test files |
-| Native UI capture | Five native views captured with synthetic fixtures; Apple/USB bridge rejection, SQLite reopen with 30 samples, bounded backup receipt and preview backup blocking passed. PNG EXIF contains only pixel dimensions, with no descriptive/device/account/GPS metadata. |
-| Full source bundle | Swift UI, Go engine and packaged Python USB built from this public source; deep/strict local signature verification, engine ping and USB startup with EOF passed; Apple runtime preparation was not requested |
-| Privacy | Private drive identity/paths excluded; public data namespace separated; native media/metadata and exact source/archive checks completed. Any future change or publication requires a fresh relevant final review. |
+| Swift UI | Type checking passed on an Apple-silicon Mac; this alone is not a full bundle test. |
+| Go engine | Tests for cmd/apprestore, pkg/appstore and pkg/http passed with a synthetic profile; a generated synthetic profile loaded successfully. |
+| Pinned upstream profile | The exact public upstream file was verified by size and SHA-256. A private test engine built with it and returned a successful ping without an Apple account. The profile is not part of this repository. |
+| Build safeguards | Synthetic tests checked the allowlisted build copy, checksum rejection, link rejection and private-package exclusion. |
+| Public data root | Synthetic tests reopened 30 history records and passed SQLite integrity checks with both an explicit canonical temporary path and the default preview path. Symlink roots, symlink ancestors and parent traversal were rejected without writing to their targets. |
+| Modern runtime preparation | Synthetic tests checked host and byte restrictions, non-overwrite behavior and rejection of partially existing assets. A fresh end-to-end preparation remains unverified. |
+| Native demo | Five native synthetic-preview frames were recaptured from this UI; the existing previously approved frames are retained where their image pixels match. |
+| Full bundle | A local Apple-silicon full-bundle build succeeded without preparing Apple runtime. The public data-root safety adjustment was compiled and tested separately; live Apple authentication is not demonstrated by a build or ping. |
+| Privacy | No publication is permitted without a separate final review of the exact source, media and metadata. |
 
-Not tested: a clean second Mac, Intel, notarized distribution, fresh Apple login/2FA/download/acquisition, an app installation on a physical iPhone, every USB/backup/export scenario, and the full recipe starting with fresh dependency installation and downloaded Apple runtime. Earlier private-installation reports are not acceptance of this public edition.
+The previous 0.8.8 public preparation had 79 passing Python unit tests; that historical result is not a fresh result for this revision. Not tested for this revision: clean second Mac, Intel, notarized distribution, fresh Apple login/2FA/download, physical-iPhone installation, all USB/backup/export scenarios, and a fresh full runtime download. Earlier private-installation reports are not acceptance of this public edition.
 
-The offline screenshots show native current views with an invented device/catalog/history. They must not be described as a live connected-phone session, proof of recovery, a UI mockup or physical-device compatibility acceptance. Both readable native screenshots and their exact source/media hashes must accompany a visual release.
-
-The full build recipe is supplied for review. It requires third-party dependencies and optional explicit runtime preparation. No distribution-ready DMG or official trusted first launch is claimed. A public binary requires separate source freshness, full corresponding-source/license checks, nested-binary/privacy inspection, and exact owner approval.
+Screenshots must show the current native public preview with synthetic device, catalog and history data. They are not proof of a connected iPhone, account access, or recovery. A future binary release requires separate license, source, nested-binary and privacy checks.

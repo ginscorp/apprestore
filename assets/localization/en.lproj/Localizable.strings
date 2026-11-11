@@ -929,3 +929,8 @@
 "Демонстрация: вымышленные данные, операции отключены" = "Demo: synthetic data, operations disabled";
 "Резервирование не настроено: выбери папку назначения" = "Backup is not configured: choose a destination folder";
 "Демонстрация: резервирование отключено" = "Demo: backup is disabled";
+"Apple отклонила Apple ID или пароль. Проверь данные именно учетной записи App Store." = "Apple rejected the Apple ID or password. Check the credentials for the App Store account.";
+"Apple вернула ответ, который клиент не смог обработать. Пароль не подтвержден как неверный; сохранена безопасная диагностика входа." = "Apple returned a response the client could not process. The password has not been confirmed incorrect; a safe sign-in diagnostic was saved.";
+"Не удалось дождаться ответа Apple при входе. Повтори позже." = "Apple did not respond in time during sign-in. Try again later.";
+"Сервис Apple отклонил запрос входа. Это не подтверждает ошибку пароля." = "Apple rejected the sign-in request. This does not confirm an incorrect password.";
+"Адрес службы входа Apple сейчас недоступен. Повтори позже." = "The Apple sign-in service is currently unavailable. Try again later.";

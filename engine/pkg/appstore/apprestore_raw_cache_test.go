@@ -87,3 +87,47 @@ func TestRawCacheBoundPreservesExistingPayload(t *testing.T) {
 		t.Fatal("keeper lost")
 	}
 }
+
+func TestRawCacheDirectoryAndReplicationManifest(t *testing.T) {
+	r := t.TempDir()
+	p := filepath.Join(r, "raw.ipa")
+	f, e := os.Create(p)
+	if e != nil {
+		t.Fatal(e)
+	}
+	z := zip.NewWriter(f)
+	for _, name := range []string{"Payload/Test.app/SC_Info/", "Payload/Test.app/Frameworks/X.framework/SC_Info/", "Payload/Test.app/Info.plist"} {
+		w, e := z.Create(name)
+		if e != nil {
+			t.Fatal(e)
+		}
+		if name[len(name)-1] != '/' {
+			w.Write([]byte("fixture"))
+		}
+	}
+	w, _ := z.Create("Payload/Test.app/SC_Info/Manifest.plist")
+	w.Write([]byte(`<?xml version="1.0"?><plist version="1.0"><dict><key>SinfPaths</key><array><string>SC_Info/Test.sinf</string></array><key>SinfReplicationPaths</key><array><string>Frameworks/X.framework/SC_Info/X.sinf</string></array></dict></plist>`))
+	z.Close()
+	f.Close()
+	_, md, _, _ := rawDigests(p)
+	c := &RawPackageCache{Root: filepath.Join(r, "cache")}
+	if !c.Store(123, PlatformIPhone, md, p) {
+		t.Fatal("valid unpersonalized manifest rejected")
+	}
+	if !c.Load(123, PlatformIPhone, md, filepath.Join(r, "reused.ipa")) {
+		t.Fatal("cache roundtrip")
+	}
+}
+func TestRawManifestRejectsUnknownFieldsAndUnsafeReplication(t *testing.T) {
+	for _, m := range []map[string]any{
+		{"SinfPaths": []any{}, "account": "CANARY"},
+		{"SinfPaths": []any{}, "SinfReplicationPaths": []any{"../escape.sinf"}},
+		{"SinfPaths": []any{}, "SinfReplicationPaths": []any{"a\\..\\escape.sinf"}},
+		{"SinfPaths": []any{}, "SinfReplicationPaths": "not a list"},
+		{"SinfPaths": []any{}, "SinfReplicationPaths": []any{[]byte("LICENSE")}},
+	} {
+		if rawManifestEligible(m) {
+			t.Fatal("unsafe manifest accepted")
+		}
+	}
+}

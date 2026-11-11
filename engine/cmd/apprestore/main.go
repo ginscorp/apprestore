@@ -41,11 +41,14 @@ type reply struct {
 	Diagnostic *checkDiagnostic `json:"diagnostic,omitempty"`
 }
 type session struct {
-	store       *memoryStore
-	api         appstore.AppStore
-	account     appstore.Account
-	directory   string
-	packagePath string
+	pendingAPI   appstore.AppStore
+	pendingStore *memoryStore
+	pendingEmail string
+	store        *memoryStore
+	api          appstore.AppStore
+	account      appstore.Account
+	directory    string
+	packagePath  string
 }
 
 func main() {
@@ -125,6 +128,12 @@ func main() {
 	}
 }
 func (s *session) close() error {
+	if s.pendingStore != nil {
+		s.pendingStore.Close()
+	}
+	s.pendingAPI = nil
+	s.pendingStore = nil
+	s.pendingEmail = ""
 	if s.store != nil {
 		s.store.Close()
 	}
@@ -165,6 +174,30 @@ func (s *session) handle(ctx context.Context, q request) (r reply) {
 		return reply{OK: true, Data: map[string]bool{"verified_assets": true, "emulator_loaded": true}}
 	case "ping":
 		return reply{OK: true, Data: map[string]any{"version": "0.8.2", "credentials": "memory_only", "keychain": false}}
+	case "auth_preflight", "auth_probe":
+		mem := newMemory()
+		defer mem.Close()
+		jar, _ := cookiejar.New(nil)
+		system := operatingsystem.New()
+		api := appstore.NewAppStore(appstore.Args{EnableDeviceAuthentication: true, Context: ctx, Keychain: mem, CookieJar: memoryCookies{jar}, OperatingSystem: system, Machine: machine.New(machine.Args{OS: system})})
+		netguard.BeginTrace()
+		bag, err := api.Bag(appstore.BagInput{})
+		if err == nil && q.Action == "auth_probe" {
+			// Accountless protocol probe: never consumes fields supplied by the caller.
+			_, err = api.Login(appstore.LoginInput{})
+		}
+		events := netguard.EndTrace()
+		if err != nil {
+			code := errorCode(err)
+			diagnostic := makeCheckDiagnostic(0, "auth_configuration", code, events)
+			diagnostic.ResponseSummary = summarizeCheckError(err)
+			return reply{Error: code, Diagnostic: diagnostic}
+		}
+		family := "legacy"
+		if strings.HasPrefix(bag.AuthEndpoint, "https://auth.itunes.apple.com/") {
+			family = "native"
+		}
+		return reply{OK: true, Data: map[string]any{"configuration_available": true, "authentication_family": family}}
 	case "catalog":
 		if s.api != nil {
 			return reply{Error: "close_session_first"}
@@ -186,16 +219,36 @@ func (s *session) handle(ctx context.Context, q request) (r reply) {
 		if len(q.Email) > 320 || len(q.Password) > 4096 || q.Email == "" || q.Password == "" || len(q.Code) > 8 {
 			return reply{Error: "invalid_credentials"}
 		}
-		mem := newMemory()
-		jar, _ := cookiejar.New(nil)
-		system := operatingsystem.New()
-		api := appstore.NewAppStore(appstore.Args{Keychain: mem, CookieJar: memoryCookies{jar}, OperatingSystem: system, Machine: machine.New(machine.Args{OS: system})})
+		mem, api := s.pendingStore, s.pendingAPI
+		if api == nil || s.pendingEmail != q.Email {
+			if mem != nil {
+				mem.Close()
+			}
+			mem = newMemory()
+			jar, _ := cookiejar.New(nil)
+			system := operatingsystem.New()
+			api = appstore.NewAppStore(appstore.Args{EnableDeviceAuthentication: true, Context: ctx, Keychain: mem, CookieJar: memoryCookies{jar}, OperatingSystem: system, Machine: machine.New(machine.Args{OS: system})})
+		}
+		s.pendingAPI = nil
+		s.pendingStore = nil
+		s.pendingEmail = ""
+		netguard.BeginTrace()
 		out, err := api.Login(appstore.LoginInput{Email: q.Email, Password: q.Password, AuthCode: q.Code})
+		events := netguard.EndTrace()
 		q.Password = ""
 		q.Code = ""
 		if err != nil {
-			mem.Close()
-			return reply{Error: errorCode(err)}
+			if errors.Is(err, appstore.ErrAuthCodeRequired) {
+				s.pendingAPI = api
+				s.pendingStore = mem
+				s.pendingEmail = q.Email
+			} else {
+				mem.Close()
+			}
+			code := errorCode(err)
+			diagnostic := makeCheckDiagnostic(0, "login", code, events)
+			diagnostic.ResponseSummary = summarizeCheckError(err)
+			return reply{Error: code, Diagnostic: diagnostic}
 		}
 		out.Account.Password = ""
 		s.account = out.Account

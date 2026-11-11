@@ -43,7 +43,7 @@ func RecordTrace(path string, status int, failed bool) {
 		return
 	}
 	step := "apple_other"
-	for fragment, label := range map[string]string{"/bag": "service_endpoints", "/volumeStoreDownloadProduct": "legacy_download", "/redownload": "redownload", "/updateProduct": "update_product", "/ent/download": "ent_download", "/lookup": "public_lookup"} {
+	for fragment, label := range map[string]string{"/auth/v1/native": "authentication", "/auth/v1/otp/": "store_provisioning", "/MachineProvisioning": "machine_provisioning", "/bag": "service_endpoints", "/authenticate": "authentication", "/signSapSetup": "device_verification", "/volumeStoreDownloadProduct": "legacy_download", "/redownload": "redownload", "/updateProduct": "update_product", "/ent/download": "ent_download", "/lookup": "public_lookup"} {
 		if strings.Contains(path, fragment) {
 			step = label
 			break

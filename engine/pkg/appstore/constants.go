@@ -22,6 +22,9 @@ const (
 	PrivateInitPath   = "/bag.xml"
 
 	PrivateAppStoreAPIDomain       = "buy." + iTunesAPIDomain
+	PrivateAppStoreNativeDomain    = "auth.itunes.apple.com"
+	PrivateAppStoreNativePath      = "/auth/v1/native"
+	storeAuthenticationUserAgent   = "Configurator/2.21 (Macintosh; OS X 27.0.1; 26A434) AppleWebKit/0625.2.5.11.6"
 	PrivateAppStoreAPIPathAuth     = "/WebObjects/MZFinance.woa/wa/authenticate"
 	PrivateAppStoreAPIPathPurchase = "/WebObjects/MZFinance.woa/wa/buyProduct"
 	PrivateAppStoreAPIPathDownload = "/WebObjects/MZFinance.woa/wa/volumeStoreDownloadProduct"

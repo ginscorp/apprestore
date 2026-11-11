@@ -1,6 +1,8 @@
 package appstore
 
 import (
+	"context"
+	"sync"
 	"time"
 
 	"github.com/majd/ipatool/v2/pkg/http"
@@ -38,31 +40,40 @@ type AppStore interface {
 }
 
 type appstore struct {
-	keychain            keychain.Keychain
-	loginClient         http.Client[loginResult]
-	searchClient        http.Client[searchResult]
-	purchaseClient      http.Client[purchaseResult]
-	downloadClient      http.Client[downloadResult]
-	kbsyncGenerator     kbsyncGenerator
-	kbsyncCache         kbsyncCache
-	platformClient      http.Client[platformVersionLookupResult]
-	storefrontClient    http.Client[[]byte]
-	bagClient           http.Client[bagResult]
-	ownedAppsClient     http.Client[[]byte]
-	httpClient          http.Client[interface{}]
-	macDecrypterFactory macPackageDecrypterFactory
-	actionSignerFactory ActionSignerFactory
-	authRetrySleep      func(time.Duration)
-	machine             machine.Machine
-	os                  operatingsystem.OperatingSystem
+	deviceAuthEnabled     bool
+	deviceAuthContext     context.Context
+	deviceAuthMu          sync.Mutex
+	deviceProofGenerator  func(context.Context, []byte, string, []byte) (map[string]string, []byte, error)
+	authenticationHeaders map[string]string
+	keychain              keychain.Keychain
+	loginClient           http.Client[loginResult]
+	searchClient          http.Client[searchResult]
+	purchaseClient        http.Client[purchaseResult]
+	downloadClient        http.Client[downloadResult]
+	kbsyncGenerator       kbsyncGenerator
+	kbsyncCache           kbsyncCache
+	platformClient        http.Client[platformVersionLookupResult]
+	storefrontClient      http.Client[[]byte]
+	bagClient             http.Client[bagResult]
+	ownedAppsClient       http.Client[[]byte]
+	httpClient            http.Client[interface{}]
+	macDecrypterFactory   macPackageDecrypterFactory
+	actionSignerFactory   ActionSignerFactory
+	authRetrySleep        func(time.Duration)
+	machine               machine.Machine
+	os                    operatingsystem.OperatingSystem
 }
 
 type Args struct {
-	Keychain            keychain.Keychain
-	CookieJar           http.CookieJar
-	OperatingSystem     operatingsystem.OperatingSystem
-	Machine             machine.Machine
-	ActionSignerFactory ActionSignerFactory
+	// Only the memory-only helper opts in. Injected test clients retain the
+	// original login behavior without network provisioning.
+	EnableDeviceAuthentication bool
+	Context                    context.Context
+	Keychain                   keychain.Keychain
+	CookieJar                  http.CookieJar
+	OperatingSystem            operatingsystem.OperatingSystem
+	Machine                    machine.Machine
+	ActionSignerFactory        ActionSignerFactory
 }
 
 func NewAppStore(args Args) AppStore {
@@ -74,15 +85,27 @@ func NewAppStore(args Args) AppStore {
 	actionSignerFactory := args.ActionSignerFactory
 	if actionSignerFactory == nil {
 		actionSignerFactory = defaultActionSignerFactory
+		if args.Context != nil {
+			actionSignerFactory = func(config SAPConfig, id []byte) (ActionSigner, error) {
+				return actionSignerWithContext(args.Context, config, id)
+			}
+		}
 	}
 
 	return &appstore{
-		keychain:            args.Keychain,
-		loginClient:         http.NewClient[loginResult](http.Args{CookieJar: args.CookieJar, Authentication: true}),
-		searchClient:        http.NewClient[searchResult](clientArgs),
-		purchaseClient:      http.NewClient[purchaseResult](clientArgs),
-		downloadClient:      http.NewClient[downloadResult](clientArgs),
-		kbsyncGenerator:     defaultKBSyncGenerator,
+		deviceAuthEnabled: args.EnableDeviceAuthentication,
+		deviceAuthContext: args.Context,
+		keychain:          args.Keychain,
+		loginClient:       http.NewClient[loginResult](http.Args{CookieJar: args.CookieJar, Authentication: true}),
+		searchClient:      http.NewClient[searchResult](clientArgs),
+		purchaseClient:    http.NewClient[purchaseResult](clientArgs),
+		downloadClient:    http.NewClient[downloadResult](clientArgs),
+		kbsyncGenerator: func(ctx context.Context, id []byte, dsid uint64) ([]byte, error) {
+			if args.EnableDeviceAuthentication {
+				return deviceKBSyncGenerator(ctx, id, dsid)
+			}
+			return defaultKBSyncGenerator(ctx, id, dsid)
+		},
 		platformClient:      http.NewClient[platformVersionLookupResult](clientArgs),
 		storefrontClient:    http.NewClient[[]byte](clientArgs),
 		bagClient:           http.NewClient[bagResult](http.Args{CookieJar: args.CookieJar, Timeout: http.DefaultAuthenticationTimeout}),
